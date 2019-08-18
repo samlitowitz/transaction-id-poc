@@ -4,8 +4,9 @@ services:
     build:
       context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
       dockerfile: ./build/Dockerfile-app
-    command: ["--nats-addr", "nats", "--nats-subj","msg.test"]
+    command: ["--nats-addr", "nats", "--nats-subj", "msg.test", "--echo-addr", "http://echo:8080"]
     depends_on:
+      - echo
       - nats
       - nats-sub
     expose:
@@ -14,6 +15,20 @@ services:
     networks:
       - backend
       - random-requester-network
+
+  echo:
+    build:
+      context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
+      dockerfile: ./build/Dockerfile-echo
+    command: ["--nats-addr", "nats", "--nats-subj", "msg.test"]
+    depends_on:
+      - nats
+      - nats-sub
+    expose:
+      - "8080"
+    image: echo
+    networks:
+      - backend
 
   nats:
     expose:
