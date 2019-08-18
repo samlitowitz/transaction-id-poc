@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
+      dockerfile: ./build/Dockerfile-app
+    expose:
+      - "8080"
+    image: app
+    networks:
+      - random-requester-network
+
+  random-requester:
+    build:
+      context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
+      dockerfile: ./build/Dockerfile-random-requester
+    command: ["--address", "http://app:8080"]
+    depends_on:
+      - "app"
+    image: random-requester
+    networks:
+      - random-requester-network
+
+networks:
+  random-requester-network:
+    driver: bridge
