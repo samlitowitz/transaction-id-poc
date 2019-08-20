@@ -1,5 +1,10 @@
 # Transaction ID Proof of Concept
 
+```sh
+git clone https://github.com/samlitowitz/transaction-id-poc.git
+cd transaction-id-poc/build && docker-compose up
+```
+
 request -> router, add unique (for how long?) transaction id to request -> <resolved route>
 
 echo route 
