@@ -1,0 +1,21 @@
+digraph {
+    app [label="App"];
+    request [label="Random Requester"];
+
+    request -> app;
+
+    nats [label="NATS"];
+    app -> nats [label="{<transaction_id>, <user_id>}"];
+    app -> nats [label="{<transaction_id>, <image_data>}"];
+
+    permissionsCheck [label="PermissionsCheck"];
+    nats -> permissionsCheck [label="{<transaction_id>, <user_id>}"];
+    permissionsCheck -> nats [label="{<transaction_id>, <log_data>}"];
+
+    uploadImage [label="UploadImage"];
+    nats -> uploadImage [label="{<transaction_id>, <image_data>}"];
+    uploadImage -> nats [label="{<transaction_id>, <log_data>}"];
+
+    logAgg [label="LogAggregator"];
+    nats -> logAgg [label="{<transaction_id>, <log_data>}"];
+}

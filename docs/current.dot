@@ -1,0 +1,12 @@
+digraph {
+    app [label="App"];
+    request [label="Random Requester"];
+
+    request -> app;
+
+    nats [label="NATS"];
+    app -> nats [label="+Transaction ID"];
+
+    echo [label="Echo"];
+    nats -> echo [label="+TransactionID"];
+}

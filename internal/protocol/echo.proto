@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message Echo {
+    string transactionID = 1;
+    string message = 2;
+}
