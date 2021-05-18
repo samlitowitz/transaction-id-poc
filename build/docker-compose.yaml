@@ -3,7 +3,8 @@ services:
   app:
     build:
       context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
-      dockerfile: ./build/Dockerfile-app
+      dockerfile: ./build/Dockerfile
+      target: "app"
     command: ["--nats-addr", "nats", "--nats-subj", "msg.test", "--echo-addr", "http://echo:8080"]
     depends_on:
       - echo
@@ -19,7 +20,8 @@ services:
   echo:
     build:
       context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
-      dockerfile: ./build/Dockerfile-echo
+      dockerfile: ./build/Dockerfile
+      target: "echo"
     command: ["--nats-addr", "nats", "--nats-subj", "msg.test"]
     depends_on:
       - nats
@@ -42,7 +44,8 @@ services:
   nats-sub:
     build:
       context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
-      dockerfile: ./build/Dockerfile-nats-sub
+      dockerfile: ./build/Dockerfile
+      target: "nats-sub"
     command: ["-s", "nats", "msg.test"]
     depends_on:
       - nats
@@ -56,7 +59,8 @@ services:
   random-requester:
     build:
       context: $GOPATH/src/github.com/samlitowitz/transaction-id-poc/
-      dockerfile: ./build/Dockerfile-random-requester
+      dockerfile: ./build/Dockerfile
+      target: "random-requester"
     command: ["--address", "http://app:8080"]
     depends_on:
       - "app"
